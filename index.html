@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html lang="en">
 <head>
   <title>Vail Quiz App</title>
@@ -7,21 +7,22 @@
   <link rel="stylesheet" href="main.css">
 </head>
 <body>
+    <header><h1>Vail Quiz App</h1></header>
     <style>
         body {
           background-image: url('images/mountain-sunset-glow.jpeg');
         }
         </style>
     
-    <h1>Vail Quiz App</h1>
+    
     <div class="container"></div>
     <p>Question: <br>
     Score: </p>
     <form>
         
-     <ul>
-        <div class="answers-list">
+     <ul class="answer-list js-answer-list">
             <h3>This is where the question will be</h3>
+            <h3 class="js-question"></h3>
        <li>
         <input type="radio" id="answer1" name="answer" value="answer1">
         <label for="answer1">This is answer 1</label></li><br>
@@ -34,7 +35,6 @@
         <li>
         <input type="radio" id="answer4" name="answer" value="answer4">
         <label for="answer4">This is answer 4</label></li>
-        </div>
     </ul>
     </form>
 
@@ -44,4 +44,30 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="index.js"></script>
 </body>
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Vail Quiz App</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet"
+    type="text/css" />
+  <link href="app.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+  <header><h1>Vail Quiz App</h1></header>
+  <main>
+      
+  </main>
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.js" crossorigin="anonymous"></script>
+  <script src="app.js"></script>
+</body>
+
 </html>
