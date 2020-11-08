@@ -1,3 +1,16 @@
+const qAndA = [
+    {id: cuid(), question: "What is the total skiable acreage on Vail Mountain?", 
+        answers: ["4,380 acres", "6,295 acres", "5,317 acres", "3,683 acres"]},
+    {id: cuid(), question: "What is the total number of official trails on Vail Mountain?", 
+        answers: ["195", "243", "156", "117"]},
+    {id: cuid(), question: "How many lifts are at Vail Mountain?", 
+        answers: ["22", "31", "38", "27"]},
+    {id: cuid(), question: "What is the peak (highest) elevation on Vail Mountain?", 
+        answers: ["10,358", "12,210", "9,760", "11,570"]},
+    {id: cuid(), question: "How long is the longest run on Vail Mountain?", 
+        answers: ["4 miles", "3.2 miles", "1.4 miles", "5 miles"]}
+]
+
 function userClicksStart() {
     //listen for user to click Start button
     //when button is clicked, hide the button and load first question
