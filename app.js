@@ -62,18 +62,32 @@ function questionAnswerHtml() {
     console.log('q and a content ran');
     return `
         <div class="questionAndAnswers">
-        <p>Question ${store.currentQuestion +1} out of ${store.questions.length}</p>
+        <p>Question ${currentQuestion().index} out of ${store.questions.length}</p>
         <p>Score: ${store.score} / ${store.questions.length}</p>
         <br>
-            ${currentQuestion}
+            ${currentQuestion().questionTotal.question}
         <br>
             <form>
-                 ${currentAnswerChoices}
+            <ul>
+                ${currentAnswerChoices()}
+            </ul>
             <br>
                   <button type="submit" class="submit-answer">Submit</button>
              </form>
         </div>
         `;
+}
+
+
+
+function currentAnswerChoices() {
+    let answerList = "";
+    for(let i of currentQuestion().questionTotal.answers) {
+        answerList += `<li>
+        <input type="radio" name="answerOptions"> ${i} </input>
+        </li>`;
+    }
+    return answerList;
 }
 
 
@@ -121,14 +135,18 @@ function userClicksStart() {
     });
 }
 
+//load the next question in the question array
 function currentQuestion () {
-    //load the next question in the question array
+    let index = store.questionNumber;
+    let currentQuestion = store.questions[index];
+    return {index: index +1, questionTotal: currentQuestion};
 }
 
-function currentAnswerChoices () {
-    // gather answers that are associated with the relative question
+
+// gather answers that are associated with the relative question
     //load the 4 answer choices as list items
-}
+/*function currentAnswerChoices () { 
+}*/
 
 function submitAnswer () {
     //listen for user to click submit button
@@ -153,12 +171,12 @@ function restartQuiz () {
     //clear score and question number
 }
 
-function currentScore () {
+function scoreCount () {
     //if user gets questions correct, add one to the score
     //update total score with number of questions submitted
 }
 
-function currentQuestion () {
+function QuestionCount () {
     //start at 1 out of length of questions
     //add one each time user clicks next
 }
