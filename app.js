@@ -48,15 +48,36 @@ function welcomePageHtml() {
     return `
     <div class="welcome">
         <h3>Welcome!</h3>
+        <form>
         <p>Welcome to the Vail Quiz App. This quiz will test your knowledge about Vail Mountain in Colorado.</p>
            <p> Click the 'Start' button below to get started.</p>
-        <button type="button" id="start">Start Quiz</button>
-     </div>`;
+        <button type="submit" id="start">Start Quiz</button>
+        </form>
+     </div>
+     `;
 }
 
 
 function questionAnswerHtml() {
     console.log('q and a content ran');
+    return `
+        <div class="questionAndAnswers">
+        <p>Question ${store.currentQuestion +1} out of ${store.questions.length}</p>
+        <p>Score: ${store.score} / ${store.questions.length}</p>
+        <br>
+            ${currentQuestion}
+        <br>
+            <form>
+                 ${currentAnswerChoices}
+            <br>
+                  <button type="submit" class="submit-answer">Submit</button>
+             </form>
+        </div>
+        `;
+}
+
+
+function validateSelectionHtml() {
     return `
         <div class="questionAndAnswers">
         <p>Question $(store.currentQuestion +1) out of $(store.questions.length)</p>
@@ -67,12 +88,14 @@ function questionAnswerHtml() {
             <form>
                  $(currentAnswerChoices)
             <br>
-                  <button type="submit" class="submit-answer">Submit</button>
                   <button type="button" class="next-answer">Next</button>
              </form>
         </div>
-        `
+        `;
 }
+
+
+
 
 
 function resultsPageHtml() {
@@ -81,21 +104,21 @@ function resultsPageHtml() {
         <div class="reults">
         <h3>Congrats! You have completed the Vail Quiz!</h3>
         <p>Your score is $(store.score) out of $(store.questions.length)!</p>
-        <button type="button" id="restart-quiz">Restart Quiz</button>
-    `
+        <button type="submit" id="restart-quiz">Restart Quiz</button>
+    `;
 }
 
 
 
 function userClicksStart() {
-    console.log('start button clicked');
     //listen for user to click Start button
     //when button is clicked, quizStarted=true, load questionAnswerHtml
-    $('main').on('click', '#start', function (event){
+    $('main').on('click', '#start', function (event) {
+        console.log('start button clicked');
         event.preventDefault();
-        quizStarted = true;
+        store.quizStarted = true;
         renderQuiz();
-    })
+    });
 }
 
 function currentQuestion () {
@@ -144,26 +167,30 @@ function currentQuestion () {
 function renderQuiz() {
     let html = "";
     if (store.quizStarted === false) {
+        console.log('quiz not started');
        html = $('main').html(welcomePageHtml());
        return html;
     }
     else if (store.quizStarted === true) {
+        console.log('quiz started');
         html = $('main').html(questionAnswerHtml());
         return html;
     }
     else {
-        html = $('main').html(resultsPageHtml())
+        console.log("quiz ended");
+        html = $('main').html(resultsPageHtml());
         return html;
-    }
+    };
 }
 
 
 
 function runQuizApp() {
     renderQuiz ();
-    welcomePageHtml();
-    questionAnswerHtml();
-    resultsPageHtml();
+    userClicksStart();
+    submitAnswer();
+    nextQuestion();
+    restartQuiz();
 }
 
 $(runQuizApp);
