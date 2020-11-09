@@ -1,4 +1,20 @@
-const qAndA = [
+  /**
+   *
+   * Your app should include a render() function, that regenerates
+   * the view each time the store is updated. See your course
+   * material, consult your instructor, and reference the slides
+   * for more details.
+   *
+   * NO additional HTML elements should be added to the index.html file.
+   *
+   * You may add attributes (classes, ids, etc) to the existing HTML elements, or link stylesheets or additional scripts if necessary
+   *
+   */ 
+
+
+
+const store = {
+    questions: [
     {question: "What is the total skiable acreage on Vail Mountain?", 
         answers: ["4,380 acres", "6,295 acres", "5,317 acres", "3,683 acres"],
         correctAnswer: "5,317 acres"},
@@ -17,18 +33,76 @@ const qAndA = [
     {question: "What is the average annual snowfall?",
         answers: ["282", "354", "420", "391"],
         correctAnswer: "354"}
-    ]
+    ],
+    questionNumber: 0,
+    score: 0,
+    quizStarted: false
+};
 
-function userClicksStart() {
-    //listen for user to click Start button
-    //when button is clicked, hide the button and load first question
+
+//HTML functions
+
+function welcomePageHtml() {
+    //load start page page with welcome message and start button
+    console.log("welcome page ran");
+    return `
+    <div class="welcome">
+        <h3>Welcome!</h3>
+        <p>Welcome to the Vail Quiz App. This quiz will test your knowledge about Vail Mountain in Colorado.</p>
+           <p> Click the 'Start' button below to get started.</p>
+        <button type="button" id="start">Start Quiz</button>
+     </div>`;
 }
 
-function loadQuestion () {
+
+function questionAnswerHtml() {
+    console.log('q and a content ran');
+    return `
+        <div class="questionAndAnswers">
+        <p>Question $(store.currentQuestion +1) out of $(store.questions.length)</p>
+        <p>Score: $(store.score) / $(store.questions.length)</p>
+        <br>
+            $(currentQuestion)
+        <br>
+            <form>
+                 $(currentAnswerChoices)
+            <br>
+                  <button type="submit" class="submit-answer">Submit</button>
+                  <button type="button" class="next-answer">Next</button>
+             </form>
+        </div>
+        `
+}
+
+
+function resultsPageHtml() {
+    console.log('results page ran');
+    return `
+        <div class="reults">
+        <h3>Congrats! You have completed the Vail Quiz!</h3>
+        <p>Your score is $(store.score) out of $(store.questions.length)!</p>
+        <button type="button" id="restart-quiz">Restart Quiz</button>
+    `
+}
+
+
+
+function userClicksStart() {
+    console.log('start button clicked');
+    //listen for user to click Start button
+    //when button is clicked, quizStarted=true, load questionAnswerHtml
+    $('main').on('click', '#start', function (event){
+        event.preventDefault();
+        quizStarted = true;
+        renderQuiz();
+    })
+}
+
+function currentQuestion () {
     //load the next question in the question array
 }
 
-function loadAnswerChoices () {
+function currentAnswerChoices () {
     // gather answers that are associated with the relative question
     //load the 4 answer choices as list items
 }
@@ -65,3 +139,31 @@ function currentQuestion () {
     //start at 1 out of length of questions
     //add one each time user clicks next
 }
+
+
+function renderQuiz() {
+    let html = "";
+    if (store.quizStarted === false) {
+       html = $('main').html(welcomePageHtml());
+       return html;
+    }
+    else if (store.quizStarted === true) {
+        html = $('main').html(questionAnswerHtml());
+        return html;
+    }
+    else {
+        html = $('main').html(resultsPageHtml())
+        return html;
+    }
+}
+
+
+
+function runQuizApp() {
+    renderQuiz ();
+    welcomePageHtml();
+    questionAnswerHtml();
+    resultsPageHtml();
+}
+
+$(runQuizApp);

@@ -1,3 +1,13 @@
+/* Your styles should be mobile-first and responsive */
+
+/** 
+  * If you are unclear on how to utilize a mobile-first, responsive technique to write your CSS, here is an example: 
+  *
+  * https://github.com/andreacardybailey/responsive_example/blob/master/styles/responsive-base.css 
+  *
+*/
+
+
 * {
     box-sizing: border-box;
   }
@@ -12,6 +22,10 @@
 
   h1 {
       text-align: center;
+  }
+
+  h3 {
+    color: black;
   }
 
   ul {
