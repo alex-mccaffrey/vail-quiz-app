@@ -76,28 +76,48 @@ function questionAnswerHtml() {
         `;
 }
 
+function answerResultHtml() {
+    console.log('answer result html');
+    if (guessCorrect() === true) {
+        console.log('true result html');
+        return `
+        <div class="answer-reults"> <p> You are Correct!</p>
+        <button type='submit' class='next-question id='next'>Next</button>
+        </div>`;
+    }
+    else {
+        console.log('false result html');
+        return `<div class="answer-results"><p>You are incorrect. The correct answer is ${currentQuestion().questionTotal.correctAnswer}</div>
+        <button type='submit' class='next-question id='next'>Next</button>
+        </div>`; 
+    }
+}
+
  
 function submitAnswer () {
     $("main").on('click', '.submit-answer', event => {
         event.preventDefault();
-        answerFeedback();
+        getSelectedAnswer();
+        //guessCorrect();
+        answerResultHtml();
         renderQuiz();
     });
 }
 
-function answerFeedback() {
-    let correctIncorrect= "";
+function guessCorrect() {
+    let isCorrect = false;
     let correctAnswer = currentQuestion().questionTotal.correctAnswer;
     let selectedAnswer = getSelectedAnswer();
     if (selectedAnswer === correctAnswer){
-        console.log('right answer picked');
-        //`<div class="right-answer>You are correct!</div>`
+        isCorrect= true;
+        store.score ++;
+        return isCorrect;
     }
     else {
-        console.log('wrong answer picked');
-        //`<div class="wrong-answer>You are incorrect. The correct answer is ${currentQuestion().questionTotal.correctAnswer}</div>`
+        return isCorrect;
     }
 };
+
 
 function getSelectedAnswer() {
     let selected= $("input[type='radio'][name='answerOptions']:checked");
@@ -145,7 +165,6 @@ function resultsPageHtml() {
 //when button is clicked, quizStarted=true, load questionAnswerHtml
 function userClicksStart() {
     $('main').on('click', '#start', function (event) {
-        console.log('start button clicked');
         event.preventDefault();
         store.quizStarted = true;
         renderQuiz();
@@ -205,20 +224,18 @@ function QuestionCount () {
 function renderQuiz() {
     let html = "";
     if (store.quizStarted === false) {
-        console.log('quiz not started');
        html = $('main').html(welcomePageHtml());
        return html;
     }
-    else if (store.quizStarted === true) {
-        console.log('quiz started');
+    else {
+        if (store.questionNumber < store.questions.length) {
         html = $('main').html(questionAnswerHtml());
         return html;
+        }
+        else {
+            html = $('main').html(resultsPageHtml());
+        }
     }
-    else {
-        console.log("quiz ended");
-        html = $('main').html(resultsPageHtml());
-        return html;
-    };
 }
 
 
