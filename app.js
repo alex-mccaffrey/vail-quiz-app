@@ -36,7 +36,8 @@ const store = {
     ],
     questionNumber: 0,
     score: 0,
-    quizStarted: false
+    quizStarted: false,
+    submittingAnswer: false
 };
 
 
@@ -94,16 +95,6 @@ function answerResultHtml() {
 }
 
  
-function submitAnswer () {
-    $("main").on('click', '.submit-answer', event => {
-        event.preventDefault();
-        getSelectedAnswer();
-        //guessCorrect();
-        answerResultHtml();
-        renderQuiz();
-    });
-}
-
 function guessCorrect() {
     let isCorrect = false;
     let correctAnswer = currentQuestion().questionTotal.correctAnswer;
@@ -111,9 +102,11 @@ function guessCorrect() {
     if (selectedAnswer === correctAnswer){
         isCorrect= true;
         store.score ++;
+        store.submittingAnswer = true;
         return isCorrect;
     }
     else {
+        store.submittingAnswer = true;
         return isCorrect;
     }
 };
@@ -171,6 +164,16 @@ function userClicksStart() {
     });
 }
 
+function submitAnswer () {
+    $("main").on('click', '.submit-answer', event => {
+        event.preventDefault();
+        getSelectedAnswer();
+        answerResultHtml();
+        renderQuiz();
+    });
+}
+
+
 //load the next question in the question array
 function currentQuestion () {
     let index = store.questionNumber;
@@ -221,6 +224,7 @@ function QuestionCount () {
 }
 
 
+
 function renderQuiz() {
     let html = "";
     if (store.quizStarted === false) {
@@ -229,14 +233,21 @@ function renderQuiz() {
     }
     else {
         if (store.questionNumber < store.questions.length) {
+            if (store.submittingAnswer === false){
         html = $('main').html(questionAnswerHtml());
+            }
+            else {
+                html = $('main').html(answerResultHtml());
+            }
         return html;
         }
-        else {
+        /*else {
             html = $('main').html(resultsPageHtml());
-        }
+        }*/
     }
 }
+
+
 
 
 
