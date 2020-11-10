@@ -42,9 +42,8 @@ const store = {
 
 //HTML functions
 
+//load start page page with welcome message and start button
 function welcomePageHtml() {
-    //load start page page with welcome message and start button
-    console.log("welcome page ran");
     return `
     <div class="welcome">
         <h3>Welcome!</h3>
@@ -59,7 +58,6 @@ function welcomePageHtml() {
 
 
 function questionAnswerHtml() {
-    console.log('q and a content ran');
     return `
         <div class="questionAndAnswers">
         <p>Question ${currentQuestion().index} out of ${store.questions.length}</p>
@@ -78,20 +76,43 @@ function questionAnswerHtml() {
         `;
 }
 
+ //listen for user to click submit button
+    //if answer matches, display answer is correct
+    //if the answer is wrong, display the correct answer
+    //hide submit button, load next button
+function submitAnswer () {
+    $("main").on('click', '.submit-answer', event => {
+        event.preventDefault();
+        answerFeedback();
+        renderQuiz();
+    });
+}
 
-
-function currentAnswerChoices() {
-    let answerList = "";
-    for(let i of currentQuestion().questionTotal.answers) {
-        answerList += `<li>
-        <input type="radio" name="answerOptions"> ${i} </input>
-        </li>`;
+function answerFeedback() {
+    let correctIncorrect= "";
+    let correctAnswer = currentQuestion().questionTotal.correctAnswer;
+    let selectedAnswer = getSelectedAnswer();
+    if (selectedAnswer === correctAnswer){
+        console.log('right answer picked');
+        //`<div class="right-answer>You are correct!</div>`
     }
-    return answerList;
+    else {
+        console.log('wrong answer picked');
+        //`<div class="wrong-answer>You are incorrect. The correct answer is ${currentQuestion().questionTotal.correctAnswer}</div>`
+    }
+};
+
+function getSelectedAnswer() {
+    let selected= $("input[type='radio'][name='answerOptions']:checked");
+    let selectedAnswer="";
+    if (selected.length > 0) {
+        selectedAnswer = selected.val();
+    } 
+    return selectedAnswer;
 }
 
 
-function validateSelectionHtml() {
+/*function validateSelectionHtml() {
     return `
         <div class="questionAndAnswers">
         <p>Question $(store.currentQuestion +1) out of $(store.questions.length)</p>
@@ -106,14 +127,13 @@ function validateSelectionHtml() {
              </form>
         </div>
         `;
-}
+}*/
 
 
 
 
 
 function resultsPageHtml() {
-    console.log('results page ran');
     return `
         <div class="reults">
         <h3>Congrats! You have completed the Vail Quiz!</h3>
@@ -124,9 +144,9 @@ function resultsPageHtml() {
 
 
 
+ //listen for user to click Start button
+//when button is clicked, quizStarted=true, load questionAnswerHtml
 function userClicksStart() {
-    //listen for user to click Start button
-    //when button is clicked, quizStarted=true, load questionAnswerHtml
     $('main').on('click', '#start', function (event) {
         console.log('start button clicked');
         event.preventDefault();
@@ -145,15 +165,18 @@ function currentQuestion () {
 
 // gather answers that are associated with the relative question
     //load the 4 answer choices as list items
-/*function currentAnswerChoices () { 
-}*/
+    function currentAnswerChoices() {
+        let answerList = "";
+        for(let i of currentQuestion().questionTotal.answers) {
+            answerList += `<li>
+            <input type="radio" name="answerOptions" > ${i} </input>
+            </li>`;
+        }
+        return answerList;
+    }
 
-function submitAnswer () {
-    //listen for user to click submit button
-    //if answer matches, display answer is correct
-    //if the answer is wrong, display the correct answer
-    //hide submit button, load next button
-}
+
+   
 
 function nextQuestion () {
     //listen for use to click next button
