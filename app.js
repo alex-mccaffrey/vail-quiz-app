@@ -76,10 +76,7 @@ function questionAnswerHtml() {
         `;
 }
 
- //listen for user to click submit button
-    //if answer matches, display answer is correct
-    //if the answer is wrong, display the correct answer
-    //hide submit button, load next button
+ 
 function submitAnswer () {
     $("main").on('click', '.submit-answer', event => {
         event.preventDefault();
@@ -169,7 +166,7 @@ function currentQuestion () {
         let answerList = "";
         for(let i of currentQuestion().questionTotal.answers) {
             answerList += `<li>
-            <input type="radio" name="answerOptions" > ${i} </input>
+            <input type="radio" name="answerOptions" value="${i}"> ${i} </input>
             </li>`;
         }
         return answerList;
