@@ -82,14 +82,19 @@ function answerResultHtml() {
     if (guessCorrect() === true) {
         console.log('true result html');
         return `
-        <div class="answer-reults"> <p> You are Correct!</p>
-        <button type='submit' class='next-question id='next'>Next</button>
+        <div class="answer-reults">
+        <form> <p> You are Correct!</p>
+        <button type='submit' id='next'>Next</button>
+        </form>
         </div>`;
     }
     else {
         console.log('false result html');
-        return `<div class="answer-results"><p>You are incorrect. The correct answer is ${currentQuestion().questionTotal.correctAnswer}</div>
-        <button type='submit' class='next-question id='next'>Next</button>
+        return `<div class="answer-results">
+        <form>
+        <p>You are incorrect. The correct answer is ${currentQuestion().questionTotal.correctAnswer}</div>
+        <button type='submit' id='next'>Next</button>
+        </form>
         </div>`; 
     }
 }
@@ -195,11 +200,20 @@ function currentQuestion () {
     }
 
 
-   
-
-function nextQuestion () {
-    //listen for use to click next button
-    //run loadQuestion function
+function nextQuestion() {
+    store.submittingAnswer = false;
+    store.questionNumber ++;
+}
+  
+    
+function userClicksNext () {
+    console.log('user clicks next');
+    $('main').on('click', '#next', event => {
+        console.log('next clicked');
+    event.preventDefault();
+    nextQuestion();
+    renderQuiz();
+});
 }
 
 function results () {
