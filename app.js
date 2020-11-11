@@ -208,9 +208,9 @@ function nextQuestion() {
 }
   
     
-function userClicksNext () {
+function userClicksNext() {
     console.log('user clicks next');
-    $('main').on('click', '.next-question', (event) => {
+    $('main').on('click', '.next-question', event => {
         console.log('next clicked');
     event.preventDefault();
     nextQuestion();
@@ -272,6 +272,7 @@ function runQuizApp() {
     renderQuiz ();
     userClicksStart();
     submitAnswer();
+    userClicksNext();
     nextQuestion();
     restartQuiz();
 }
