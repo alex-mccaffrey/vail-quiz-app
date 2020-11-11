@@ -41,9 +41,8 @@ const store = {
 };
 
 
-//HTML functions
+//****** HTML functions ******//
 
-//load start page page with welcome message and start button
 function welcomePageHtml() {
     return `
     <div class="welcome">
@@ -83,7 +82,7 @@ function answerResultHtml() {
         <div class="answer-reults">
         <form> 
         <p>You are Correct!</p>
-        <button type="submit" class="next-question">Next</button>
+        <button type="button" class="next-question">Next</button>
         </form>
         </div>`;
     }
@@ -93,11 +92,25 @@ function answerResultHtml() {
         <div class="answer-results">
         <form>
         <p>You are incorrect. The correct answer is ${currentQuestion().questionTotal.correctAnswer}</p>
-        <button type="submit" class="next-question">Next</button>
+        <button type="button" class="next-question">Next</button>
         </form>
         </div>`; 
     }
 }
+
+
+function resultsPageHtml() {
+    return `
+        <div class="results-page">
+        <h3>Congrats! You have completed the Vail Quiz!</h3>
+        <p>Your score is ${store.score} out of ${store.questions.length}!</p>
+        <button class="restart-quiz">Restart Quiz</button>
+        </div>
+    `;
+}
+
+
+//***** Action functions */
 
 function addToScore() {
     if (guessCorrect() === true) {
@@ -131,25 +144,32 @@ function getSelectedAnswer() {
     return selectedAnswer;
 }
 
-
-
-function resultsPageHtml() {
-    return `
-        <div class="reults">
-        <h3>Congrats! You have completed the Vail Quiz!</h3>
-        <p>Your score is ${store.score} out of ${store.questions.length}!</p>
-        <button class="restart-quiz">Restart Quiz</button>
-    `;
+function currentQuestion () {
+    let index = store.questionNumber;
+    let currentQuestion = store.questions[index];
+    return {index: index +1, questionTotal: currentQuestion};
 }
 
-function userClicksRestart() {
-    $('main').on('click', '.restart-quiz', event => {
-        event.preventDefault();
-        store.quizStarted = false;
-        renderQuiz();
-    })
+
+function currentAnswerChoices() {
+        let answerList = "";
+        for(let i of currentQuestion().questionTotal.answers) {
+            answerList += `<li>
+            <input type="radio" name="answerOptions" value="${i}"> ${i} </input>
+            </li>`;
+        }
+        return answerList;
 }
 
+
+function nextQuestion() {
+    store.submittingAnswer = false;
+    store.questionNumber ++;
+}
+
+
+
+// ***** Click functions ****** //
 
 function userClicksStart() {
     $('main').on('click', '#start', function (event) {
@@ -157,6 +177,14 @@ function userClicksStart() {
         store.quizStarted = true;
         renderQuiz();
     });
+}
+
+function userClicksNext() {
+    $('main').on('click', '.next-question', event => {
+    event.preventDefault();
+    nextQuestion();
+    renderQuiz();
+});
 }
 
 function submitAnswer () {
@@ -169,64 +197,19 @@ function submitAnswer () {
     });
 }
 
-
-//load the next question in the question array
-function currentQuestion () {
-    let index = store.questionNumber;
-    let currentQuestion = store.questions[index];
-    return {index: index +1, questionTotal: currentQuestion};
-}
-
-
-// gather answers that are associated with the relative question
-    //load the 4 answer choices as list items
-    function currentAnswerChoices() {
-        let answerList = "";
-        for(let i of currentQuestion().questionTotal.answers) {
-            answerList += `<li>
-            <input type="radio" name="answerOptions" value="${i}"> ${i} </input>
-            </li>`;
-        }
-        return answerList;
-    }
-
-
-function nextQuestion() {
-    store.submittingAnswer = false;
-    store.questionNumber ++;
+function userClicksRestart() {
+    $('main').on('click', '.restart-quiz', event => {
+        event.preventDefault();
+        store.quizStarted = false;
+        renderQuiz();
+    })
 }
   
     
-function userClicksNext() {
-    $('main').on('click', '.next-question', event => {
-    event.preventDefault();
-    nextQuestion();
-    renderQuiz();
-});
-}
-
-function results () {
-    //display the number of correct answers
-    //display restart quiz button
-}
-
-function restartQuiz () {
-    //listen for user to click restart button
-    //when button is clicked, load first question/answer
-    //clear score and question number
-}
-
-function scoreCount () {
-    //if user gets questions correct, add one to the score
-    //update total score with number of questions submitted
-}
-
-function QuestionCount () {
-    //start at 1 out of length of questions
-    //add one each time user clicks next
-}
 
 
+
+//***** Render Quiz ******//
 
 function renderQuiz() {
     let html = "";
