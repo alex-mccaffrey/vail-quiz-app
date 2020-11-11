@@ -210,6 +210,7 @@ function restartQuiz() {
     store.questionNumber = 0;
     store.submittingAnswer = false;
     store.score = 0;
+
 }
 
 
