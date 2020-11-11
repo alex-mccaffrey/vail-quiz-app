@@ -137,15 +137,20 @@ function resultsPageHtml() {
     return `
         <div class="reults">
         <h3>Congrats! You have completed the Vail Quiz!</h3>
-        <p>Your score is $(store.score) out of $(store.questions.length)!</p>
-        <button type="submit" id="restart-quiz">Restart Quiz</button>
+        <p>Your score is ${store.score} out of ${store.questions.length}!</p>
+        <button class="restart-quiz">Restart Quiz</button>
     `;
 }
 
+function userClicksRestart() {
+    $('main').on('click', '.restart-quiz', event => {
+        event.preventDefault();
+        store.quizStarted = false;
+        renderQuiz();
+    })
+}
 
 
- //listen for user to click Start button
-//when button is clicked, quizStarted=true, load questionAnswerHtml
 function userClicksStart() {
     $('main').on('click', '#start', function (event) {
         event.preventDefault();
@@ -230,8 +235,7 @@ function renderQuiz() {
        store.questionNumber = -1;
        return html;
     }
-    else {
-        if (store.questionNumber < store.questions.length) {
+    else if (store.questionNumber < store.questions.length) {
             if (store.submittingAnswer === false){
         html = $('main').html(questionAnswerHtml());
             }
@@ -240,9 +244,8 @@ function renderQuiz() {
             }
         return html;
         }
-        /*else {
-            html = $('main').html(resultsPageHtml());
-        }*/
+    else {
+        html = $('main').html(resultsPageHtml());
     }
 }
 
@@ -256,7 +259,7 @@ function runQuizApp() {
     submitAnswer();
     userClicksNext();
     nextQuestion();
-    restartQuiz();
+    userClicksRestart();
 }
 
 $(runQuizApp);
