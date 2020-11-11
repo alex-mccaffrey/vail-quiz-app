@@ -79,7 +79,7 @@ function questionAnswerHtml() {
 function answerResultHtml() {
     if (guessCorrect() === true){
     return `
-        <div class="answer-reults">
+        <div class="answer-results">
         <form> 
         <p>You are Correct!</p>
         <button type="button" class="next-question">Next</button>
@@ -200,13 +200,17 @@ function submitAnswer () {
 function userClicksRestart() {
     $('main').on('click', '.restart-quiz', event => {
         event.preventDefault();
-        store.quizStarted = false;
+        restartQuiz();
         renderQuiz();
     })
 }
   
-    
-
+function restartQuiz() {
+    store.quizStarted = false;
+    store.questionNumber = 0;
+    store.submittingAnswer = false;
+    store.score = 0;
+}
 
 
 //***** Render Quiz ******//
