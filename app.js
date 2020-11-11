@@ -60,7 +60,7 @@ function welcomePageHtml() {
 function questionAnswerHtml() {
     return `
         <div class="questionAndAnswers">
-        <p>Question ${currentQuestion().index} out of ${store.questions.length}</p>
+        <p>Question ${currentQuestion().index + 1} out of ${store.questions.length}</p>
         <p>Score: ${store.score} / ${store.questions.length}</p>
         <br>
             ${currentQuestion().questionTotal.question}
@@ -147,7 +147,7 @@ function getSelectedAnswer() {
 function currentQuestion () {
     let index = store.questionNumber;
     let currentQuestion = store.questions[index];
-    return {index: index +1, questionTotal: currentQuestion};
+    return {index: index, questionTotal: currentQuestion};
 }
 
 
@@ -168,6 +168,13 @@ function nextQuestion() {
 }
 
 
+function restartQuiz() {
+    store.quizStarted = false;
+    store.submittingAnswer = false;
+    store.questionNumber =0;
+    store.score = 0;
+}
+
 
 // ***** Click functions ****** //
 
@@ -175,6 +182,7 @@ function userClicksStart() {
     $('main').on('click', '#start', function (event) {
         event.preventDefault();
         store.quizStarted = true;
+        store.submittingAnswer === false;
         renderQuiz();
     });
 }
@@ -205,13 +213,6 @@ function userClicksRestart() {
     })
 }
   
-function restartQuiz() {
-    store.quizStarted = false;
-    store.questionNumber = 0;
-    store.submittingAnswer = false;
-    store.score = 0;
-
-}
 
 
 //***** Render Quiz ******//
@@ -220,7 +221,6 @@ function renderQuiz() {
     let html = "";
     if (store.quizStarted === false) {
        html = $('main').html(welcomePageHtml());
-       store.questionNumber = -1;
        return html;
     }
     else if (store.questionNumber < store.questions.length) {
@@ -246,7 +246,6 @@ function runQuizApp() {
     userClicksStart();
     submitAnswer();
     userClicksNext();
-    nextQuestion();
     userClicksRestart();
 }
 
