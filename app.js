@@ -83,17 +83,19 @@ function answerResultHtml() {
         console.log('true result html');
         return `
         <div class="answer-reults">
-        <form> <p> You are Correct!</p>
-        <button type='submit' id='next'>Next</button>
+        <form> 
+        <p>You are Correct!</p>
+        <button type="submit" class="next-question">Next</button>
         </form>
         </div>`;
     }
     else {
         console.log('false result html');
-        return `<div class="answer-results">
+        return `
+        <div class="answer-results">
         <form>
-        <p>You are incorrect. The correct answer is ${currentQuestion().questionTotal.correctAnswer}</div>
-        <button type='submit' id='next'>Next</button>
+        <p>You are incorrect. The correct answer is ${currentQuestion().questionTotal.correctAnswer}</p>
+        <button type="submit" class="next-question">Next</button>
         </form>
         </div>`; 
     }
@@ -208,7 +210,7 @@ function nextQuestion() {
     
 function userClicksNext () {
     console.log('user clicks next');
-    $('main').on('click', '#next', event => {
+    $('main').on('click', '.next-question', (event) => {
         console.log('next clicked');
     event.preventDefault();
     nextQuestion();
@@ -243,6 +245,7 @@ function renderQuiz() {
     let html = "";
     if (store.quizStarted === false) {
        html = $('main').html(welcomePageHtml());
+       store.questionNumber = -1;
        return html;
     }
     else {
