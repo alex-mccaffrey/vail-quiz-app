@@ -78,10 +78,8 @@ function questionAnswerHtml() {
 }
 
 function answerResultHtml() {
-    console.log('answer result html');
-    if (guessCorrect() === true) {
-        console.log('true result html');
-        return `
+    if (guessCorrect() === true){
+    return `
         <div class="answer-reults">
         <form> 
         <p>You are Correct!</p>
@@ -89,15 +87,21 @@ function answerResultHtml() {
         </form>
         </div>`;
     }
+
     else {
-        console.log('false result html');
-        return `
+    return `
         <div class="answer-results">
         <form>
         <p>You are incorrect. The correct answer is ${currentQuestion().questionTotal.correctAnswer}</p>
         <button type="submit" class="next-question">Next</button>
         </form>
         </div>`; 
+    }
+}
+
+function addToScore() {
+    if (guessCorrect() === true) {
+        store.score++;
     }
 }
 
@@ -108,7 +112,6 @@ function guessCorrect() {
     let selectedAnswer = getSelectedAnswer();
     if (selectedAnswer === correctAnswer){
         isCorrect= true;
-        store.score ++;
         store.submittingAnswer = true;
         return isCorrect;
     }
@@ -127,26 +130,6 @@ function getSelectedAnswer() {
     } 
     return selectedAnswer;
 }
-
-
-/*function validateSelectionHtml() {
-    return `
-        <div class="questionAndAnswers">
-        <p>Question $(store.currentQuestion +1) out of $(store.questions.length)</p>
-        <p>Score: $(store.score) / $(store.questions.length)</p>
-        <br>
-            $(currentQuestion)
-        <br>
-            <form>
-                 $(currentAnswerChoices)
-            <br>
-                  <button type="button" class="next-answer">Next</button>
-             </form>
-        </div>
-        `;
-}*/
-
-
 
 
 
@@ -175,6 +158,7 @@ function submitAnswer () {
     $("main").on('click', '.submit-answer', event => {
         event.preventDefault();
         getSelectedAnswer();
+        addToScore();
         answerResultHtml();
         renderQuiz();
     });
@@ -209,9 +193,7 @@ function nextQuestion() {
   
     
 function userClicksNext() {
-    console.log('user clicks next');
     $('main').on('click', '.next-question', event => {
-        console.log('next clicked');
     event.preventDefault();
     nextQuestion();
     renderQuiz();
