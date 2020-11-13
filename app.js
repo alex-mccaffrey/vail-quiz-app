@@ -66,12 +66,12 @@ function questionAnswerHtml() {
             ${currentQuestion().questionTotal.question}
         <br>
             <form>
-            <ul>
-                ${currentAnswerChoices()}
-            </ul>
-            <br>
-                  <button type="submit" class="submit-answer">Submit</button>
-             </form>
+                <ul>
+                    ${currentAnswerChoices()}
+                 </ul>
+         <br>
+              <button type="submit" class="submit-answer">Submit</button>
+         </form>
         </div>
         `;
 }
@@ -118,12 +118,23 @@ function addToScore() {
     }
 }
 
+
+function answerSelected() {
+    if ($('input:radio[name=answerOptions]').filter(':checked').length === 0) {
+        alert('You must select an answer.');
+        store.submittingAnswer = false;
+        return false;
+    }
+    return true;
+}
+
  
 function guessCorrect() {
     let isCorrect = false;
     let correctAnswer = currentQuestion().questionTotal.correctAnswer;
     let selectedAnswer = getSelectedAnswer();
-    if (selectedAnswer === correctAnswer){
+    
+   if (selectedAnswer === correctAnswer){
         isCorrect= true;
         store.submittingAnswer = true;
         return isCorrect;
@@ -132,7 +143,7 @@ function guessCorrect() {
         store.submittingAnswer = true;
         return isCorrect;
     }
-};
+}
 
 
 function getSelectedAnswer() {
@@ -140,9 +151,11 @@ function getSelectedAnswer() {
     let selectedAnswer="";
     if (selected.length > 0) {
         selectedAnswer = selected.val();
+        return selectedAnswer;
     } 
-    return selectedAnswer;
 }
+
+
 
 function currentQuestion () {
     let index = store.questionNumber;
@@ -155,7 +168,8 @@ function currentAnswerChoices() {
         let answerList = "";
         for(let i of currentQuestion().questionTotal.answers) {
             answerList += `<li>
-            <input type="radio" name="answerOptions" value="${i}"> ${i} </input>
+            <label>
+            <input type="radio" name="answerOptions" value="${i}"> ${i} </label>
             </li>`;
         }
         return answerList;
@@ -198,10 +212,11 @@ function userClicksNext() {
 function submitAnswer () {
     $("main").on('click', '.submit-answer', event => {
         event.preventDefault();
-        getSelectedAnswer();
-        addToScore();
-        answerResultHtml();
-        renderQuiz();
+        if (answerSelected()) {
+            addToScore();
+            answerResultHtml();
+            renderQuiz();
+        }
     });
 }
 
