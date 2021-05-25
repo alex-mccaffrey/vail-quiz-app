@@ -1,7 +1,7 @@
 # Vail Quiz App: A short trivia challenge to test your knowledge of Vail Resort.
 
 ## Try it out!
-[You can text your knowledge here](https://amccaff20.github.io/vail-quiz-app/)
+[You can text your knowledge here](https://alex-mccaffrey.github.io/vail-quiz-app/)
 
 ## Screenshots
 
